@@ -1,0 +1,195 @@
+#account settings
+set from="john.smith@domain.com"
+set realname = "Johh Smith"
+set imap_user = "imap_username"
+set imap_pass = "imap_pass"
+set ssl_force_tls = yes
+set smtp_url = "smtp://user@domain.com@smtp.gmail.com:587"
+set smtp_pass = "pass"
+ 
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+#set trash = "imaps://imap.gmail.com/[Gmail]/Trash"
+unset record  #The unset record line tells Mutt to not append a copy of every email you send to a file on your hard drive. Gmail will save the emails you send in the sent folder
+set header_cache =~/.mutt/cache/headers
+#set header_cache         = /Volumes/ramdisk/headers
+set message_cachedir =~/.mutt/cache/bodies
+set certificate_file =~/.mutt/certificates
+set signature        = ~/.mutt/sig           # my signature file
+
+set move = no  #Stop asking to "move read messages to mbox"!
+set imap_keepalive = 900
+
+set imap_check_subscribed
+
+# Status Bar -----------------------------------------
+set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+
+set quit=ask-yes
+
+# Header related stuff
+
+ignore *                                # ignore all headers
+unignore from: to: cc: date: subject:   # show only these
+unhdr_order *                           # some distros order things by default
+hdr_order from: to: cc: date: subject:  # and in this order
+ignore "Authentication-Results:"
+ignore "DomainKey-Signature:"
+ignore "DKIM-Signature:"
+hdr_order Date From To Cc
+ 
+ 
+# Sorting, Markers etc.
+set markers=no # don't put '+' at the beginning of wrapped lines
+set pager_index_lines = 10 # number of index lines to show
+set pager_context = 3      # number of context lines to show
+set pager_stop             # don't go to next message automatically
+set menu_scroll            # scroll in menus
+set tilde                  # show tildes like in vim
+unset markers              # no ugly plus signs
+
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+alternative_order text/plain text/enriched text/html
+
+
+# Index View Options ---------------------------------
+set date_format = "%m/%d %l:%M %p"
+#set index_format = "[%Z]  %D  %-20.20F  %s"
+set index_format = "[%D] %-20.20F  %s"
+#set index_format = "%4C %Z %{%b %d %R} %-15.15L (%4l) %s"
+set pager_format="%4C %Z %[!%b %e at %I:%M %p]  %.20n  %s%* -- (%P)"
+
+set sort = threads                         # like gmail
+set sort_aux = reverse-last-date-received  # like gmail
+set uncollapse_jump                        # don't collapse on an unread message
+set sort_browser=date
+set sort_re                                # thread based on regex
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+
+#https://gist.github.com/kaleb/1289741
+bind  index,pager \# delete-thread	#Delete
+macro index,pager gd <change-folder>=[Gmail]/Drafts<enter>	"Go to 'Drafts'"
+macro index,pager ga "<change-folder>=[Gmail]/All Mail<enter>"	"Go to all mail"
+macro index,pager gi <change-folder>=INBOX<enter> 		"Go to inbox"
+bind  generic     x  tag-entry		#Select Conversation
+bind  index       x  tag-thread		#Select Conversation
+bind  pager       x  tag-message	#Select Conversation
+
+# Index Key Bindings ---------------------------------
+bind index gg       first-entry
+bind index G        last-entry
+bind index \Cu      previous-page
+bind index \Cd      next-page
+bind index R        group-reply
+
+
+# Pager Key Bindings ---------------------------------
+bind pager k  previous-line
+bind pager j  next-line
+bind pager gg top
+bind pager G  bottom
+bind pager \Cd  next-page
+
+bind pager R  group-reply
+
+#send to trash folder
+macro index,pager d "<save-message>=[Gmail]/Trash<enter><enter><refresh>" "Trash Message"
+
+# View attachments properly.
+bind attach <return> view-mailcap
+
+
+# Set which Editor to use for composing Emails.
+set editor= '/usr/bin/vim'
+ 
+# set up the sidebar
+set sidebar_width=12
+set sidebar_visible=no
+set sidebar_delim='|'
+# set sidebar_sort=no
+#
+# b toggles sidebar visibility
+macro index s '<enter-command>toggle sidebar_visible<enter>'
+macro pager s '<enter-command>toggle sidebar_visible<enter>'
+ 
+# which mailboxes to list in the sidebar,
+# you can add your Labels in Gmail to the Sidebar.
+mailboxes =All\ Mail =INBOX =Drafts =Sent\ Mail  =Trash
+ 
+# color of folders with new mail
+color sidebar_new yellow default
+ 
+#Sidebar Navigation
+#bind index \CP sidebar-prev
+#bind index \CN sidebar-next
+#bind index \CK sidebar-open
+#bind pager \CP sidebar-prev
+#bind pager \CN sidebar-next
+#bind pager \CK sidebar-open
+
+bind index,pager <down>   sidebar-next
+bind index,pager <up>     sidebar-prev
+bind index,pager <right>  sidebar-open
+
+ 
+# b toggles sidebar visibility
+macro index b 'toggle sidebar_visible'
+macro pager b 'toggle sidebar_visible'
+ 
+# Remap bounce-message function to "B"
+bind index B bounce-message
+
+# Compose View Options -------------------------------
+set envelope_from                    # which from?
+set sig_dashes                       # dashes before sig
+set edit_headers                     # show headers when composing
+set fast_reply                       # skip to compose when replying
+set askcc                            # ask for CC:
+set fcc_attach                       # save attachments with the body
+unset mime_forward                   # forward attachments as part of body
+set forward_format = "Fwd: %s"       # format of subject when forwarding
+set forward_decode                   # decode when forwarding
+set attribution = "On %d, %n wrote:" # format of quoting header
+set reply_to                         # reply to Reply to: field
+set reverse_name                     # reply as whomever it was to
+set include                          # include message in replies
+set forward_quote                    # include message in forwards
+
+#make mutt colorful!
+source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-light-16.muttrc
+
+# integration to google address book
+set query_command="goobook query '%s'"
+macro index,pager a "<pipe-message>goobook add<return>" "add sender to google contacts"
+bind editor <Tab> complete-query
+
+#view urls
+macro pager \Cu "|urlview<enter>" "call urlview to open links"
+
+#color attachment brightmagenta default
+#color error      brightred    default
+#color hdrdefault red          default
+#color indicator  brightyellow red
+#color markers    brightcyan   default
+#color message    brightcyan   default
+#color normal     default      default
+#color quoted     brightblue   default
+#color search     default      green
+#color signature  red          default
+#color status     yellow       blue
+#color tilde      magenta      default
+#color tree       magenta      default
+
+#sync mailbox
+set timeout=60
+timeout-hook . "exec sync-mailbox"
+
+#Converstation View http://thetarpit.org/posts/y00/00a-conversation-view-in-mutt.html
+macro index,pager ut <tag-thread><limit>~T<enter><tag-thread> "show only current thread"
+macro index,pager ua <limit>all<enter> "show everything"
+
+#forward attachments
+set mime_forward=yes
+set mime_forward_rest=yes
