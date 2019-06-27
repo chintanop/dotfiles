@@ -11,9 +11,8 @@ set nowrap        " don't wrap lines
 set tabstop=4     " a tab is four spaces
 set backspace=indent,eol,start
                   " allow backspacing over everything in insert mode
-set autoindent    " always set autoindenting on
+"set autoindent    " always set autoindenting on
 set copyindent    " copy the previous indentation on autoindenting
-set relativenumber " show relative line numbers
 set number        " always show line numbers
 set shiftwidth=4  " number of spaces to use for autoindenting
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
@@ -21,7 +20,7 @@ set showmatch     " set show matching parenthesis
 set ignorecase    " ignore case when searching
 set smartcase     " ignore case if search pattern is all lowercase,
                   "    case-sensitive otherwise
-set smarttab      " insert tabs on the start of a line according to
+"set smarttab      " insert tabs on the start of a line according to
                   "    shiftwidth, not tabstop
 set hlsearch      " highlight search terms
 set incsearch     " show search matches as you type
@@ -38,10 +37,10 @@ set hidden 				" http://items.sjbach.com/319/configuring-vim-right
 set nobackup
 set noswapfile
 
-let g:miniBufExplSplitToEdge = 0
-let g:miniBufExplVSplit = 20
-let g:miniBufExplSplitBelow=1
-let g:miniBufExplCheckDupeBufs = 0
+"let g:miniBufExplSplitToEdge = 0
+"let g:miniBufExplVSplit = 20
+"let g:miniBufExplSplitBelow=1
+"let g:miniBufExplCheckDupeBufs = 0
 
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -65,6 +64,8 @@ nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 
 autocmd filetype python set expandtab
 autocmd fileType python autocmd BufWritePre <buffer> :%s/\s\+$//e
+
+set expandtab
 
 map bc :Bclose<cr>
 
@@ -108,16 +109,16 @@ let g:solarized_termcolors = 256
 let g:solarized_termtrans = 1
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
-colorscheme solarized
+colorscheme solarized8
 
 let g:pymode_folding = 0
-let g:pymode_lint_on_write = 1
+"let g:pymode_lint_on_write = 1
 
 autocmd FileType python,perl,ruby,sh,zsh  map <leader>c I#     <ESC>A     #<ESC>yyp0lv$hhr-yykPjj
 autocmd FileType javascript,php,c,cpp,css map <leader>c I/*     <ESC>A     */<ESC>yyp0llv$r-$hc$*/<ESC>yykPjj
 
-let g:pymode_rope = 1
-let g:pymode_lint_on_fly = 0
+"let g:pymode_rope = 1
+"let g:pymode_lint_on_fly = 0
 
 " highlight over 80 columns
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
@@ -126,10 +127,12 @@ match OverLength /\%81v.\+/
 " Toggle NERDTree
 map <leader>n :NERDTreeToggle<CR>
 
-noremap <F7> :PymodeLintToggle<CR>
-noremap <F8> :PymodeLintAuto<CR>
-noremap <F9> :PymodeLint<CR>
+"noremap <F7> :PymodeLintToggle<CR>
+"noremap <F8> :PymodeLintAuto<CR>
+"noremap <F9> :PymodeLint<CR>
 
 call togglebg#map("<F5>")
 
 set colorcolumn=80
+
+set t_Co=256
