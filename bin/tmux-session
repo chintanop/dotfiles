@@ -35,14 +35,14 @@ restore() {
   local dimensions="$(terminal_size)"
 
   while IFS=$'\t' read session_name window_name dir; do
-    if [[ -d "$dir" && $window_name != "log" && $window_name != "man" ]]; then
+      echo "new session" 
+      echo $session_name
       if session_exists "$session_name"; then
         add_window "$session_name" "$window_name" "$dir"
       else
         new_session "$session_name" "$window_name" "$dir" "$dimensions"
         count=$(( count + 1 ))
       fi
-    fi
   done < ~/.tmux-session
 
   echo "restored $count sessions"
